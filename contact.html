@@ -5,50 +5,33 @@
     <title>Contact Tahar</title>
     <style>
         :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --text: #f8fafc; }
-        body { font-family: sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; padding-top: 80px; }
-        nav { position: fixed; top: 0; width: 100%; padding: 20px; background: rgba(15,23,42,0.9); display: flex; justify-content: space-around; border-bottom: 1px solid #334155; }
+        body { font-family: sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; padding-top: 100px; }
+        nav { position: fixed; top: 0; width: 100%; padding: 20px; display: flex; justify-content: space-around; background: rgba(15,23,42,0.9); border-bottom: 1px solid #334155; }
         nav a { color: white; text-decoration: none; font-weight: bold; }
-        
-        .msg-box { background: var(--card); padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; border: 1px solid #334155; }
+        .box { background: var(--card); padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; border: 1px solid #334155; }
         input, textarea { width: 100%; padding: 12px; margin: 10px 0; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 8px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: var(--accent); border: none; font-weight: bold; cursor: pointer; border-radius: 8px; }
+        button { width: 100%; padding: 12px; background: var(--accent); border: none; font-weight: bold; cursor: pointer; border-radius: 8px; color: #0f172a; }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="index.html">HOME</a>
-        <a href="contact.html">CONTACT</a>
-        <a href="admin.html" style="opacity:0.2">ADMIN</a>
-    </nav>
-
-    <div class="msg-box">
-        <h2>Send me a message</h2>
-        <input type="text" id="sender" placeholder="Your Name">
-        <textarea id="msgContent" rows="4" placeholder="Write something..."></textarea>
-        <button onclick="sendMessage()">Post Message</button>
+    <nav><a href="index.html">Home</a><a href="contact.html">Contact</a></nav>
+    <div class="box">
+        <h2>Send a Message</h2>
+        <input type="text" id="name" placeholder="Name">
+        <textarea id="text" placeholder="Your Message"></textarea>
+        <button onclick="send()">Send Message</button>
     </div>
-
     <script>
-        function sendMessage() {
-            const name = document.getElementById('sender').value;
-            const text = document.getElementById('msgContent').value;
-            
-            if(!name || !text) return alert("Please fill both fields!");
-
-            // Get existing messages or empty array
-            let messages = JSON.parse(localStorage.getItem('taharInbox')) || [];
-            
-            // Add new message with date
-            messages.push({
-                name: name,
-                text: text,
-                time: new Date().toLocaleString()
-            });
-
-            localStorage.setItem('taharInbox', JSON.stringify(messages));
-            alert("Message Sent to Tahar!");
-            document.getElementById('sender').value = "";
-            document.getElementById('msgContent').value = "";
+        function send() {
+            const name = document.getElementById('name').value;
+            const text = document.getElementById('text').value;
+            if(name && text) {
+                let msgs = JSON.parse(localStorage.getItem('taharInbox')) || [];
+                msgs.push({name, text, time: new Date().toLocaleString()});
+                localStorage.setItem('taharInbox', JSON.stringify(msgs));
+                alert("Sent!");
+                document.getElementById('name').value=""; document.getElementById('text').value="";
+            }
         }
     </script>
 </body>
